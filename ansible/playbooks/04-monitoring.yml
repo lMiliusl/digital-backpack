@@ -1,0 +1,49 @@
+---
+- name: Установка инструментов мониторинга
+  hosts: devops_servers
+  become: yes
+  tasks:
+    - name: Установка Prometheus Node Exporter
+      docker_container:
+        name: node-exporter
+        image: prom/node-exporter:latest
+        restart_policy: always
+        ports:
+          - "9100:9100"
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+
+    - name: Установка cAdvisor
+      docker_container:
+        name: cadvisor
+        image: gcr.io/cadvisor/cadvisor:latest
+        restart_policy: always
+        ports:
+          - "8080:8080"
+        volumes:
+          - /:/rootfs:ro
+          - /var/run:/var/run:ro
+          - /sys:/sys:ro
+          - /var/lib/docker/:/var/lib/docker:ro
+          - /dev/disk/:/dev/disk:ro
+
+    - name: Установка Grafana (для визуализации)
+      docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        restart_policy: always
+        ports:
+          - "3000:3000"
+        volumes:
+          - grafana-storage:/var/lib/grafana
+
+    - name: Установка Loki (для логов)
+      docker_container:
+        name: loki
+        image: grafana/loki:latest
+        restart_policy: always
+        ports:
+          - "3100:3100"
+        command: -config.file=/etc/loki/local-config.yaml

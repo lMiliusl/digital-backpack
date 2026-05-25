@@ -1,0 +1,5 @@
+---
+- import_playbook: 01-base-setup.yml
+- import_playbook: 02-docker.yml
+- import_playbook: 03-ufw.yml
+- import_playbook: 04-monitoring.yml

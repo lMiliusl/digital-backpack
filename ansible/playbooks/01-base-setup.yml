@@ -1,0 +1,44 @@
+---
+- name: Базовая настройка сервера
+  hosts: devops_servers
+  become: yes
+  tasks:
+    - name: Обновление apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Установка системных пакетов
+      apt:
+        name: "{{ system_packages }}"
+        state: present
+
+    - name: Настройка часового пояса
+      timezone:
+        name: "{{ timezone }}"
+
+    - name: Установка zsh и oh-my-zsh
+      block:
+        - name: Установка zsh
+          apt:
+            name: zsh
+            state: present
+        
+        - name: Установка oh-my-zsh для пользователя
+          shell: |
+            sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+          args:
+            creates: /home/{{ ansible_user }}/.oh-my-zsh
+          when: ansible_user != 'root'
+
+    - name: Создание директорий для проектов
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - /opt/devops
+        - /opt/k8s
+        - /opt/docker
+        - /opt/terraform
+        - /opt/ansible
