@@ -42,9 +42,22 @@
         state: started
         enabled: yes
 
-    - name: Установка инструментов для работы с контейнеерами
+    - name: Установка инструментов для работы с контейнерами
       apt:
         name:
           - ctop
           - dive
         state: present
+
+    - name: Копировать скрипт бэкапа
+      copy: 
+        src: ../scripts/backup_db.sh
+        dest: /opt/scripts/backup_db.sh
+        mode: '0755'
+
+    - name: Ежедневный бэкап
+      cron:
+        name: "Бэкап Postgresql"
+        job: "/opt/scripts/backup_db.sh >> /var/log/backup.log 2>&1"
+        hour: 3
+        minute: 0

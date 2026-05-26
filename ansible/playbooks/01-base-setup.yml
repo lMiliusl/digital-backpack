@@ -17,20 +17,6 @@
       timezone:
         name: "{{ timezone }}"
 
-    - name: Установка zsh и oh-my-zsh
-      block:
-        - name: Установка zsh
-          apt:
-            name: zsh
-            state: present
-        
-        - name: Установка oh-my-zsh для пользователя
-          shell: |
-            sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-          args:
-            creates: /home/{{ ansible_user }}/.oh-my-zsh
-          when: ansible_user != 'root'
-
     - name: Создание директорий для проектов
       file:
         path: "{{ item }}"

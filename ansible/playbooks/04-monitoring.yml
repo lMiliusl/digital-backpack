@@ -46,4 +46,3 @@
         restart_policy: always
         ports:
           - "3100:3100"
-        command: -config.file=/etc/loki/local-config.yaml

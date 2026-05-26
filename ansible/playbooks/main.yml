@@ -3,3 +3,4 @@
 - import_playbook: 02-docker.yml
 - import_playbook: 03-ufw.yml
 - import_playbook: 04-monitoring.yml
+- import_playbook: 05-app-deploy.yml

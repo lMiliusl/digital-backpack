@@ -1,0 +1,16 @@
+---
+- name: Деплой приложения
+  hosts: devops_servers
+  become: yes
+  tasks:
+    - name: Клонирование репозитория
+      git:
+        repo: https://github.com/lMiliusl/digital-backpack.git
+        dest: /opt/digital-backpack
+        version: main
+        update: yes
+
+    - name: Запуск Docker Compose
+      command:
+        cmd: docker compose up -d --build
+        chdir: /opt/digital-backpack/docker
