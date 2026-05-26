@@ -20,6 +20,7 @@ system_packages:
   - strongswan
   - xl2tpd
   - nginx
+  - ssh
 
 docker_users:
   - "{{ ansible_user }}"
