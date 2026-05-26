@@ -44,7 +44,7 @@
 
     - name: Копировать скрипт бэкапа
       copy: 
-        src: ../scripts/backup_db.sh
+        src: "{{ playbook_dir }}/../../scripts/backup_db.sh"
         dest: /opt/scripts/backup_db.sh
         mode: '0755'
 
