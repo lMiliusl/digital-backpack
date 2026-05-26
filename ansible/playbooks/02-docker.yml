@@ -42,6 +42,12 @@
         state: started
         enabled: yes
 
+    - name: Создание директории для скриптов
+      file:
+        path: /opt/scripts
+        state: directory
+        mode: '0755'
+
     - name: Копировать скрипт бэкапа
       copy: 
         src: "{{ playbook_dir }}/../../scripts/backup_db.sh"
