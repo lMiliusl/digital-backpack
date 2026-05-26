@@ -42,13 +42,6 @@
         state: started
         enabled: yes
 
-    - name: Установка инструментов для работы с контейнерами
-      apt:
-        name:
-          - ctop
-          - dive
-        state: present
-
     - name: Копировать скрипт бэкапа
       copy: 
         src: ../scripts/backup_db.sh
