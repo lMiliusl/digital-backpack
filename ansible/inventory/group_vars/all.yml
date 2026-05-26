@@ -23,4 +23,4 @@ system_packages:
   - ssh
 
 docker_users:
-  - "{{ ansible_user }}"
+  - "{{ ansible_user_id }}"
